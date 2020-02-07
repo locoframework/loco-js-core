@@ -5,10 +5,24 @@
   "main": "dist/loco-core.js",
   "scripts": {
     "build": "webpack -p --config webpack.config.js",
+    "lint-staged": "lint-staged",
+    "server": "node dev/server.js",
+    "start": "webpack --watch --config webpack.config.js",
     "test": "jest"
   },
+  "keywords": [
+    "core",
+    "loco",
+    "framework"
+  ],
   "author": "Zbigniew Humeniuk <hello@artofcode.co>",
   "license": "MIT",
+  "homepage": "http://locoframework.org",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.6.2",
