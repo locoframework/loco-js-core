@@ -1,53 +1,52 @@
 const init = (Controllers, Env) => {
-  const namespace_name = document
+  const namespaceName = document
     .getElementsByTagName("body")[0]
     .getAttribute("data-namespace");
-  const controller_name = document
+  const controllerName = document
     .getElementsByTagName("body")[0]
     .getAttribute("data-controller");
-  const action_name = document
+  const actionName = document
     .getElementsByTagName("body")[0]
     .getAttribute("data-action");
 
-  Env.action = action_name;
+  Env.action = actionName;
 
-  if (typeof Controllers[namespace_name] === "function") {
-    Env.namespaceController = new Controllers[namespace_name]();
-    if (typeof Controllers[namespace_name][controller_name] === "function") {
-      Env.controller = new Controllers[namespace_name][controller_name]();
+  if (typeof Controllers[namespaceName] === "function") {
+    Env.namespaceController = new Controllers[namespaceName]();
+    if (typeof Controllers[namespaceName][controllerName] === "function") {
+      Env.controller = new Controllers[namespaceName][controllerName]();
     }
 
-    if (typeof Env.namespaceController.constructor.initialize === "function") {
-      Env.namespaceController.constructor.initialize();
-    }
-    if (typeof Env.namespaceController.initialize === "function") {
-      Env.namespaceController.initialize();
-    }
+    callInitialize(Env.namespaceController);
 
     if (typeof Env.controller === "object") {
       Env.namespaceController.setSubController(Env.controller);
       Env.controller.setSuperController(Env.namespaceController);
-      controllerFlow(Env.controller, action_name);
+      controllerFlow(Env.controller, actionName);
     }
-  } else if (typeof Controllers[controller_name] === "function") {
-    Env.controller = new Controllers[controller_name]();
-    controllerFlow(Env.controller, action_name);
+  } else if (typeof Controllers[controllerName] === "function") {
+    Env.controller = new Controllers[controllerName]();
+    controllerFlow(Env.controller, actionName);
   }
 };
 
-const controllerFlow = (controller, action_name) => {
-  if (typeof controller.constructor.initialize === "function") {
-    controller.constructor.initialize();
+const callInitialize = resource => {
+  if (typeof resource.constructor.initialize === "function") {
+    resource.constructor.initialize();
   }
-  if (typeof controller.initialize === "function") {
-    controller.initialize();
+  if (typeof resource.initialize === "function") {
+    resource.initialize();
   }
+};
 
-  if (typeof controller.constructor[action_name] === "function") {
-    controller.constructor[action_name]();
+const controllerFlow = (controller, actionName) => {
+  callInitialize(controller);
+
+  if (typeof controller.constructor[actionName] === "function") {
+    controller.constructor[actionName]();
   }
-  if (typeof controller[action_name] === "function") {
-    controller[action_name]();
+  if (typeof controller[actionName] === "function") {
+    controller[actionName]();
   }
 };
 
