@@ -11,8 +11,8 @@
     "test": "jest"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/himn1/loco-js-core.git"
+    "type": "git",
+    "url": "https://github.com/himn1/loco-js-core.git"
   },
   "keywords": [
     "core",
