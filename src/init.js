@@ -1,4 +1,4 @@
-const init = (Controllers, Env) => {
+const init = Controllers => {
   const namespaceName = document
     .getElementsByTagName("body")[0]
     .getAttribute("data-namespace");
@@ -9,25 +9,28 @@ const init = (Controllers, Env) => {
     .getElementsByTagName("body")[0]
     .getAttribute("data-action");
 
-  Env.action = actionName;
+  let namespaceController = null;
+  let controller = null;
 
   if (typeof Controllers[namespaceName] === "function") {
-    Env.namespaceController = new Controllers[namespaceName]();
+    namespaceController = new Controllers[namespaceName]();
     if (typeof Controllers[namespaceName][controllerName] === "function") {
-      Env.controller = new Controllers[namespaceName][controllerName]();
+      controller = new Controllers[namespaceName][controllerName]();
     }
 
-    callInitialize(Env.namespaceController);
+    callInitialize(namespaceController);
 
-    if (typeof Env.controller === "object") {
-      Env.namespaceController.setSubController(Env.controller);
-      Env.controller.setSuperController(Env.namespaceController);
-      controllerFlow(Env.controller, actionName);
+    if (typeof controller === "object") {
+      namespaceController.setSubController(controller);
+      controller.setSuperController(namespaceController);
+      controllerFlow(controller, actionName);
     }
   } else if (typeof Controllers[controllerName] === "function") {
-    Env.controller = new Controllers[controllerName]();
-    controllerFlow(Env.controller, actionName);
+    controller = new Controllers[controllerName]();
+    controllerFlow(controller, actionName);
   }
+
+  return { namespaceController, controller, action: actionName };
 };
 
 const callInitialize = resource => {
