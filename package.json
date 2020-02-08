@@ -10,6 +10,10 @@
     "start": "webpack --watch --config webpack.config.js",
     "test": "jest"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/himn1/loco-js-core.git"
+  },
   "keywords": [
     "core",
     "loco",
