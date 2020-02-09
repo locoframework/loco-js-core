@@ -2,9 +2,8 @@
 
 module.exports = {
   modulePaths: ["src"],
-  moduleFileExtensions: ["js", "coffee"],
+  moduleFileExtensions: ["js"],
   transform: {
-    "^.+\\.js$": "babel-jest",
-    "^.+\\.coffee$": "<rootDir>/jest.coffeescript.preprocessor.js"
+    "^.+\\.js$": "babel-jest"
   }
 };

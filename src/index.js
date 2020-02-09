@@ -1,6 +1,6 @@
 import init from "./init";
-import BaseController from "./controllers/base.coffee";
-import BaseView from "./views/base.coffee";
+import BaseController from "./controllers/base";
+import BaseView from "./views/base";
 
 const Controllers = { Base: BaseController };
 const Views = { Base: BaseView };
