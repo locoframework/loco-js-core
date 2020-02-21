@@ -1,13 +1,8 @@
 const init = Controllers => {
-  const namespaceName = document
-    .getElementsByTagName("body")[0]
-    .getAttribute("data-namespace");
-  const controllerName = document
-    .getElementsByTagName("body")[0]
-    .getAttribute("data-controller");
-  const actionName = document
-    .getElementsByTagName("body")[0]
-    .getAttribute("data-action");
+  const body = document.getElementsByTagName("body")[0];
+  const namespaceName = body.getAttribute("data-namespace");
+  const controllerName = body.getAttribute("data-controller");
+  const actionName = body.getAttribute("data-action");
 
   let namespaceController = null;
   let controller = null;
