@@ -16,8 +16,6 @@ const init = Controllers => {
     callInitialize(namespaceController);
 
     if (typeof controller === "object") {
-      namespaceController.setSubController(controller);
-      controller.setSuperController(namespaceController);
       controllerFlow(controller, actionName);
     }
   } else if (typeof Controllers[controllerName] === "function") {

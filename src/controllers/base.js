@@ -1,38 +1,6 @@
 class Base {
   constructor() {
-    this.views = {};
-    this.receivers = {};
-    this.subController = null;
-    this.superController = null;
     this.params = this.__fetchParams();
-  }
-
-  setView(key, view) {
-    this.views[key] = view;
-  }
-
-  getView(key) {
-    return this.views[key];
-  }
-
-  getViews() {
-    return this.views;
-  }
-
-  setSubController(cntrlr) {
-    this.subController = cntrlr;
-  }
-
-  getSubController() {
-    return this.subController;
-  }
-
-  setSuperController(cntrlr) {
-    this.superController = cntrlr;
-  }
-
-  getSuperController() {
-    return this.superController;
   }
 
   __fetchParams(url = window.location.href) {
