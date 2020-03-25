@@ -2,13 +2,13 @@ import { init, Controllers } from "index";
 
 let counter;
 
-class Wrapper extends Controllers.Base {
+class Wrapper {
   initialize() {
     counter += 1;
   }
 }
 
-class Main extends Controllers.Base {
+class Main {
   initialize(){
     counter += 2;
   }

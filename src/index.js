@@ -1,8 +1,6 @@
 import init from "./init";
-import BaseController from "./controllers/base";
-import BaseView from "./views/base";
+import helpers from "./helpers";
 
-const Controllers = { Base: BaseController };
-const Views = { Base: BaseView };
+const Controllers = {};
 
-export { init, Controllers, Views };
+export { init, helpers, Controllers };
