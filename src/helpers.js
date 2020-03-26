@@ -1,4 +1,4 @@
-const params = (url = window.location.href) => {
+const fetchParams = (url = window.location.href) => {
   const params = {};
   const match = /https?:\/\/.+\/\w+\/(\d+)/.exec(url);
   const id = match !== null ? match[1] : null;
@@ -20,4 +20,8 @@ const params = (url = window.location.href) => {
   return params;
 };
 
-export default { params };
+export default {
+  get params() {
+    return fetchParams();
+  }
+};
