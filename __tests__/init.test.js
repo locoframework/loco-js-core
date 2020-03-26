@@ -2,8 +2,8 @@ import { init, Controllers } from "index";
 
 let counter;
 
-class Wrapper {
-  initialize() {
+const Wrapper = {
+  initialize: () => {
     counter += 1;
   }
 }

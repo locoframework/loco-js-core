@@ -1,6 +1,7 @@
 import init from "./init";
 import helpers from "./helpers";
 
-const Controllers = {};
+class Base {}
+const Controllers = { Base };
 
 export { init, helpers, Controllers };
