@@ -40,9 +40,11 @@ const init = Controllers => {
 
   if (namespaceController !== null) {
     controller = getController(Controllers, namespaceName, controllerName);
+    namespaceController.controller = controller;
     callInitialize(namespaceController);
   }
   if (controller !== null) {
+    controller.namespaceController = namespaceController;
     controllerFlow(controller, actionName);
   }
 

@@ -34,3 +34,10 @@ it("calls out a correct controller action based on body attributes", () => {
   init(Controllers);
   expect(counter).toEqual(6);
 });
+
+it("allows accessing namespace controller and controller from each other", () => {
+  const { namespaceController, controller, action } = init(Controllers);
+
+  expect(namespaceController.controller).toBe(controller);
+  expect(controller.namespaceController).toBe(namespaceController);
+});
