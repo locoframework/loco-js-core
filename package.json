@@ -1,6 +1,6 @@
 {
   "name": "loco-js-core",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Loco-JS-Core provides a logical structure for JavaScript code",
   "main": "dist/loco-core.js",
   "scripts": {
@@ -44,8 +44,8 @@
     "jest": "^25.1.0",
     "lint-staged": "^9.4.0",
     "prettier": "^1.18.2",
-    "webpack": "^4.41.0",
-    "webpack-cli": "^3.3.9",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
     "webpack-dev-middleware": "^3.7.2"
   }
 }
