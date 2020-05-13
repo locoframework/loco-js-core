@@ -1,7 +1,7 @@
 {
   "name": "loco-js-core",
   "version": "0.1.0",
-  "description": "",
+  "description": "Loco-JS-Core provides a logical structure for JavaScript code",
   "main": "dist/loco-core.js",
   "scripts": {
     "build": "webpack -p --config webpack.config.js",
