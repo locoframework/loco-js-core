@@ -113,6 +113,12 @@ Remember to polyfill `Object.assign` or assign controllers using a different met
 $ npm install --save loco-js-core
 ```
 
+# 👩🏽‍🔬 Tests
+
+```bash
+npm run test
+```
+
 # 🤝 Dependencies
 
 🎊 Loco-JS-Core has no dependencies. 🎉
