@@ -33,7 +33,7 @@ Loco Framework
 
 # 👷🏻‍♂️ How does it work?
 
-After the document is loaded, Loco-JS checks the following `<body>`'s data attributes:
+After the document is loaded, Loco-JS-Core checks the following `<body>`'s data attributes:
 
 * data-namespace
 * data-controller
@@ -46,7 +46,7 @@ Then, it initializes given controllers and calls given methods based on their va
 </body>
 ```
 
-Loco-JS will act like this (a simplified version):
+Loco-JS-Core will act like this (a simplified version):
 
 ```javascript
 import { init, Controllers } from "loco-js-core";
@@ -62,18 +62,18 @@ Controllers.Main.Pages.index();              // if exists
 controller.index();                          // if exists
 ```
 
-What's essential is that Loco-JS looks not only for instance methods but static ones as well. If some controller is not defined, Loco-JS skips it. The same situation is with methods. You don't have to create controllers for every page that you have. You can use Loco-JS only on desired ones. It does not want to take over your front-end. Augment with JavaScript only these pages that you want.
+What's essential is that Loco-JS-Core looks not only for instance methods but static ones as well. If some controller is not defined, Loco-JS-Core skips it. The same situation is with methods. You don't have to create controllers for every page that you have. You can use Loco-JS-Core only on desired ones. It does not want to take over your front-end. Augment with JavaScript only these pages that you want.
 
-If the namespace controller is not defined, Loco-JS skips it.
+If the namespace controller is not defined, Loco-JS-Core skips it.
 
 # 🔩 Merging classes
 
-As you can see in the previous section, Loco-JS must have an access to all defined controllers to initialize them and to call given methods on them. Therefore, they have to be merged with `Controllers` object which Loco-JS exports.
+As you can see in the previous section, Loco-JS-Core must have an access to all defined controllers to initialize them and to call given methods on them. Therefore, they have to be merged with `Controllers` object which Loco-JS-Core exports.
 
 ```javascript
 // javascripts/index.js (entry point)
 
-import { Controllers } from "loco-js";
+import { Controllers } from "loco-js-core";
 
 import Admin from "./controllers/admin"; // namespace controller
 import User from "./controllers/user";   // namespace controller
