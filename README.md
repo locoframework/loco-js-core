@@ -7,7 +7,7 @@
 Loco-JS-Core is a part of the Loco framework. It has been extracted from [Loco-JS](https://github.com/locoframework/loco-js) and can be used separately. Loco-JS-Core provides a logical structure for JavaScript code. This functionality was the origin of the Loco project. That's why it received a suffix **Core**. 
 
 Model–view–controller (usually known as MVC) frameworks like [Ruby on Rails](https://rubyonrails.org) are trendy on the back-end. The controller's action responds to the user input and converts it to commands for the model or view.  
-I wanted to be sure that _"the same"_ controller's action that handles a request on the back-end is also called on the front-end side. By "the same" - I mean action with the same name and defined in an (optionally namespaced) controller with the name corresponding to the one on the server-side. 
+I wanted to be sure that _"the same"_ controller's action that handles a request on the back-end is also called on the front-end side. By "the same" - I mean an action with the same name and defined in a controller with the name corresponding to the one on the server-side. Namespacing is optional.
 
 The preceding clarification is only for the sake of understanding the connection between the front-end and back-end parts of the Loco framework. Both parts are loosely coupled in fact when it comes to this functionality. To pass controller related information to the front-end, the back-end part uses data attributes of the `<body>` HTML element. These attributes can be modified in various ways. This is why Loco-JS-Core can be used as a standalone library without a specific back-end companion.
 
@@ -64,7 +64,8 @@ controller.index();                          // if exists
 
 What's essential is that Loco-JS-Core looks not only for instance methods but static ones as well. If some controller is not defined, Loco-JS-Core skips it. The same situation is with methods. You don't have to create controllers for every page that you have. You can use Loco-JS-Core only on desired ones. It does not want to take over your front-end. Augment with JavaScript only these pages that you want.
 
-If the namespace controller is not defined, Loco-JS-Core skips it.
+If the namespace controller is not defined, Loco-JS-Core skips it and assumes `Controllers.Pages` as a controller.
+
 
 # 🔩 Merging classes
 
