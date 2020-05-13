@@ -33,38 +33,38 @@ Loco Framework
 
 # 👷🏻‍♂️ How does it work?
 
-After document is loaded, Loco-JS' instance checks following `<body>`'s data attributes:
+After the document is loaded, Loco-JS checks the following `<body>`'s data attributes:
 
 * data-namespace
 * data-controller
 * data-action
 
-Then, based on their values, it initializes given controllers and calls given methods. Example:
+Then, it initializes given controllers and calls given methods based on their values. Example:
 
 ```html
 <body data-namespace="Main" data-controller="Pages" data-action="index">
 </body>
 ```
 
-Loco-JS will act like this (simplified version):
+Loco-JS will act like this (a simplified version):
 
 ```javascript
 import { init, Controllers } from "loco-js-core";
 
 namespaceController = new Controllers.Main;
-namespaceController.initialize();
+Controllers.Main.initialize();               // if exists
+namespaceController.initialize();            // if exists
 
 controller = new Controllers.Main.Pages;
-controller.initialize();
-controller.index();
+Controllers.Main.Pages.initialize();         // if exists
+controller.initialize();                     // if exists
+Controllers.Main.Pages.index();              // if exists
+controller.index();                          // if exists
 ```
 
-What's important is that Loco-JS looks not only for instance methods but static ones as well. If some controller is not defined, Loco-JS skips it. The same situation is with methods. You don't have to create controllers for every page that you have too. You can use Loco-JS only on desired ones. It does not want to take over your front-end. Augment with JavaScript only those pages that you want instead.
+What's essential is that Loco-JS looks not only for instance methods but static ones as well. If some controller is not defined, Loco-JS skips it. The same situation is with methods. You don't have to create controllers for every page that you have. You can use Loco-JS only on desired ones. It does not want to take over your front-end. Augment with JavaScript only these pages that you want.
 
-If namespace controller is not defined, Loco-JS will assume `Controllers.Pages` as a controller.
-
-If you use Loco-JS along with Loco-Rails - after calling specified methods, Loco-JS will try to establish WebSocket connection with the server and will be waiting for signals / notifications.
-If WebSocket connection can't be established, Loco-JS will start periodically checking for new notifications via AJAX polling.
+If the namespace controller is not defined, Loco-JS skips it.
 
 # 🔩 Merging classes
 
