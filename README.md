@@ -68,7 +68,7 @@ If the namespace controller is not defined, Loco-JS-Core skips it.
 
 # 🔩 Merging classes
 
-As you can see in the previous section, Loco-JS-Core must have an access to all defined controllers to initialize them and to call given methods on them. Therefore, they have to be merged with `Controllers` object which Loco-JS-Core exports.
+As you can see in the previous section, Loco-JS-Core must have access to all defined controllers to initialize them and to call given methods on them. Therefore, they have to be merged with `Controllers` object, which Loco-JS-Core exports.
 
 ```javascript
 // javascripts/index.js (entry point)
@@ -87,7 +87,7 @@ Object.assign(Controllers, {
 ```javascript
 // javascripts/controllers/admin.js (namespace controller)
 
-import { Controllers } from "loco-js";
+import { Controllers } from "loco-js-core";
 
 import Coupons from "./admin/coupons"; // Coupons controller
 import Plans from "./admin/plans";     // Plans controller
