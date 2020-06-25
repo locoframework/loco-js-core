@@ -107,6 +107,39 @@ You don't have to define namespace controllers. You can merge controllers direct
 
 Remember to polyfill `Object.assign` or assign controllers using a different method.
 
+# 💀 Anatomy of the controller
+
+*Exemplary controller:*
+
+```javascript
+// javascripts/controllers/admin/coupons.js
+
+import { helpers, Controllers } from "loco-js-core";
+
+import New from "views/admin/coupons/new";
+import List from "views/admin/coupons/list";
+
+class Coupons extends Controllers.Base {
+  // Loco-JS-Core supports static and instance methods
+  static index() {
+    new List().render();
+  }
+
+  new() {
+    const view = new New({ planId: helpers.params.id });
+    view.render();
+  }
+}
+
+export default Coupons;
+```
+
+# 🛠 Helpers
+
+Loco-JS-Core exports `helpers` object that has the following properties:
+
+* **params** (getter) - facilitates fetching params from the URL
+
 # 📥 Installation
 
 ```bash
