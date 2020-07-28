@@ -31,6 +31,16 @@ Loco Framework
         Loco-JS-UI - connects models with UI elements (a separate library)
 ```
 
+# 🤝 Dependencies
+
+🎊 Loco-JS-Core has no dependencies. 🎉
+
+# 📥 Installation
+
+```bash
+$ npm install --save loco-js-core
+```
+
 # 👷🏻‍♂️ How does it work?
 
 After the document is loaded, Loco-JS-Core checks the following `<body>`'s data attributes:
@@ -140,21 +150,11 @@ Loco-JS-Core exports `helpers` object that has the following properties:
 
 * **params** (getter) - facilitates fetching params from the URL
 
-# 📥 Installation
-
-```bash
-$ npm install --save loco-js-core
-```
-
 # 👩🏽‍🔬 Tests
 
 ```bash
 npm run test
 ```
-
-# 🤝 Dependencies
-
-🎊 Loco-JS-Core has no dependencies. 🎉
 
 # 📜 License
 
