@@ -1,4 +1,4 @@
-import { init, Controllers } from "index";
+import { init } from "index";
 
 let counter;
 
@@ -18,8 +18,9 @@ class Main {
   }
 }
 
-Object.assign(Wrapper, { Main });
-Object.assign(Controllers, { Wrapper });
+const Controllers = {
+  Wrapper: { ...Wrapper, Main }
+};
 
 beforeEach(() => {
   counter = 0;
