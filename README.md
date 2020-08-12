@@ -41,6 +41,52 @@ Loco Framework
 $ npm install --save loco-js-core
 ```
 
+# 🎮 Usage
+
+```javascript
+import { init } from 'loco-js-core';
+
+import Main from './js/controllers/main';
+
+const Controllers = {};
+
+Object.assign(Controllers, {
+  Main
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+  init(Controllers);
+});
+
+```
+
+# 💀 Anatomy of the controller
+
+*Exemplary controller:*
+
+```javascript
+// js/controllers/admin/coupons.js
+
+import { helpers } from "loco-js-core";
+
+import New from "views/admin/coupons/new";
+import List from "views/admin/coupons/list";
+
+class Coupons {
+  // Loco-JS-Core supports static and instance methods
+  static index() {
+    new List().render();
+  }
+
+  new() {
+    const view = new New({ planId: helpers.params.id });
+    view.render();
+  }
+}
+
+export default Coupons;
+```
+
 # 👷🏻‍♂️ How does it work?
 
 After the document is loaded, Loco-JS-Core checks the following `<body>`'s data attributes:
@@ -59,7 +105,9 @@ Then, it initializes given controllers and calls given methods based on their va
 Loco-JS-Core will act like this (a simplified version):
 
 ```javascript
-import { init, Controllers } from "loco-js-core";
+import { init } from "loco-js-core";
+
+// all controllers are assigned to Controllers object
 
 namespaceController = new Controllers.Main;
 Controllers.Main.initialize();               // if exists
@@ -79,10 +127,10 @@ If the namespace controller is not defined, Loco-JS-Core skips it and assumes `C
 
 # 🔩 Merging classes
 
-As you can see in the previous section, Loco-JS-Core must have access to all defined controllers to initialize them and to call given methods on them. Therefore, they have to be merged with `Controllers` object, which Loco-JS-Core exports.
+As you can see in the previous section, Loco-JS-Core must have access to all defined controllers to initialize them and to call given methods on them. Therefore, they have to be merged with an object that holds controllers and is passed to the `init` function.
 
 ```javascript
-// javascripts/index.js (entry point)
+// js/index.js (entry point)
 
 import { Controllers } from "loco-js-core";
 
@@ -96,7 +144,7 @@ Object.assign(Controllers, {
 ```
 
 ```javascript
-// javascripts/controllers/admin.js (namespace controller)
+// js/controllers/admin.js (namespace controller)
 
 import { Controllers } from "loco-js-core";
 
@@ -116,33 +164,6 @@ export default Admin;
 You don't have to define namespace controllers. You can merge controllers directly with exported `Controllers` object.
 
 Remember to polyfill `Object.assign` or assign controllers using a different method.
-
-# 💀 Anatomy of the controller
-
-*Exemplary controller:*
-
-```javascript
-// javascripts/controllers/admin/coupons.js
-
-import { helpers, Controllers } from "loco-js-core";
-
-import New from "views/admin/coupons/new";
-import List from "views/admin/coupons/list";
-
-class Coupons extends Controllers.Base {
-  // Loco-JS-Core supports static and instance methods
-  static index() {
-    new List().render();
-  }
-
-  new() {
-    const view = new New({ planId: helpers.params.id });
-    view.render();
-  }
-}
-
-export default Coupons;
-```
 
 # 🛠 Helpers
 
