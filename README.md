@@ -93,6 +93,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 ```
 
+The `init` function returns an object with 3 properties: `namespaceController`, `controller` and `action`. They store instances of current controllers and the action name.
+
 # 💀 Anatomy of the controller
 
 *Exemplary controller:*
