@@ -13,10 +13,10 @@ app.use(webpackDevMiddleware(compiler, {
   publicPath: config.output.publicPath
 }));
 
-app.get('/', function(req, res) {
+app.get('/', (_, res) => {
   res.sendFile(path.join(__dirname, `${rootPath}/dev/`));
 });
 
-app.listen(3000, function () {
+app.listen(3000, () => {
   console.log('Example app listening on port 3000!\n');
 });
