@@ -1,6 +1,6 @@
 {
   "name": "loco-js-core",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Loco-JS-Core provides a logical structure for JavaScript code",
   "main": "dist/loco-core.js",
   "scripts": {
