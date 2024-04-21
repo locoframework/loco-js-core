@@ -1,9 +1,21 @@
-const callInitialize = resource => {
+let namespaceController = null;
+let controller = null;
+
+const callInitialize = (resource) => {
   if (typeof resource.constructor.initialize === "function") {
     resource.constructor.initialize();
   }
   if (typeof resource.initialize === "function") {
     resource.initialize();
+  }
+};
+
+const callDeinitialize = (resource) => {
+  if (typeof resource.constructor.deinitialize === "function") {
+    resource.constructor.deinitialize();
+  }
+  if (typeof resource.deinitialize === "function") {
+    resource.deinitialize();
   }
 };
 
@@ -29,14 +41,23 @@ const getController = (Controllers, name, subName) => {
   return null;
 };
 
-const init = Controllers => {
+const init = (Controllers) => {
   const body = document.getElementsByTagName("body")[0];
   const namespaceName = body.getAttribute("data-namespace");
   const controllerName = body.getAttribute("data-controller");
   const actionName = body.getAttribute("data-action");
 
-  let namespaceController = getController(Controllers, namespaceName);
-  let controller = getController(Controllers, controllerName);
+  if (controller !== null) {
+    callDeinitialize(controller);
+    controller = null;
+  }
+  if (namespaceController !== null) {
+    callDeinitialize(namespaceController);
+    namespaceController = null;
+  }
+
+  namespaceController = getController(Controllers, namespaceName);
+  controller = getController(Controllers, controllerName);
 
   if (namespaceController !== null) {
     controller = getController(Controllers, namespaceName, controllerName);
