@@ -3,19 +3,19 @@ let controller = null;
 
 const callInitialize = (resource) => {
   if (typeof resource.constructor.initialize === "function") {
-    resource.constructor.initialize();
+    resource.constructor["initialize"]();
   }
   if (typeof resource.initialize === "function") {
-    resource.initialize();
+    resource["initialize"]();
   }
 };
 
 const callDeinitialize = (resource) => {
   if (typeof resource.constructor.deinitialize === "function") {
-    resource.constructor.deinitialize();
+    resource.constructor["deinitialize"]();
   }
   if (typeof resource.deinitialize === "function") {
-    resource.deinitialize();
+    resource["deinitialize"]();
   }
 };
 
