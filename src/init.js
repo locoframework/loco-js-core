@@ -1,33 +1,26 @@
 let namespaceController = null;
 let controller = null;
 
+const callFunc = (resource, name) => {
+  if (typeof resource.constructor[name] === "function") {
+    resource.constructor[name]();
+  }
+  if (typeof resource[name] === "function") {
+    resource[name]();
+  }
+};
+
 const callInitialize = (resource) => {
-  if (typeof resource.constructor.initialize === "function") {
-    resource.constructor["initialize"]();
-  }
-  if (typeof resource.initialize === "function") {
-    resource["initialize"]();
-  }
+  callFunc(resource, "initialize");
 };
 
 const callDeinitialize = (resource) => {
-  if (typeof resource.constructor.deinitialize === "function") {
-    resource.constructor["deinitialize"]();
-  }
-  if (typeof resource.deinitialize === "function") {
-    resource["deinitialize"]();
-  }
+  callFunc(resource, "deinitialize");
 };
 
 const controllerFlow = (controller, actionName) => {
-  callInitialize(controller);
-
-  if (typeof controller.constructor[actionName] === "function") {
-    controller.constructor[actionName]();
-  }
-  if (typeof controller[actionName] === "function") {
-    controller[actionName]();
-  }
+  callFunc(controller, "initialize");
+  callFunc(controller, actionName);
 };
 
 const getController = (Controllers, name, subName) => {
