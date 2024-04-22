@@ -5,12 +5,20 @@ let counter;
 const Wrapper = {
   initialize: () => {
     counter += 1;
-  }
-}
+  },
+
+  deinitialize: () => {
+    counter -= 1;
+  },
+};
 
 class Main {
-  initialize(){
+  initialize() {
     counter += 2;
+  }
+
+  deinitialize() {
+    counter -= 2;
   }
 
   list() {
@@ -19,7 +27,7 @@ class Main {
 }
 
 const Controllers = {
-  Wrapper: { ...Wrapper, Main }
+  Wrapper: { ...Wrapper, Main },
 };
 
 beforeEach(() => {
@@ -27,17 +35,19 @@ beforeEach(() => {
 });
 
 it("calls out a correct controller action based on body attributes", () => {
-  document.body.setAttribute('data-namespace', "Wrapper");
-  document.body.setAttribute('data-controller', "Main");
-  document.body.setAttribute('data-action', "list");
+  document.body.setAttribute("data-namespace", "Wrapper");
+  document.body.setAttribute("data-controller", "Main");
+  document.body.setAttribute("data-action", "list");
 
   expect(counter).toEqual(0);
   init(Controllers);
   expect(counter).toEqual(6);
+  init(Controllers);
+  expect(counter).toEqual(9);
 });
 
 it("allows accessing namespace controller and controller from each other", () => {
-  const { namespaceController, controller, action } = init(Controllers);
+  const { namespaceController, controller } = init(Controllers);
 
   expect(namespaceController.controller).toBe(controller);
   expect(controller.namespaceController).toBe(namespaceController);

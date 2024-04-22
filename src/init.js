@@ -1,20 +1,12 @@
-const callInitialize = resource => {
-  if (typeof resource.constructor.initialize === "function") {
-    resource.constructor.initialize();
-  }
-  if (typeof resource.initialize === "function") {
-    resource.initialize();
-  }
-};
+let namespaceController = null;
+let controller = null;
 
-const controllerFlow = (controller, actionName) => {
-  callInitialize(controller);
-
-  if (typeof controller.constructor[actionName] === "function") {
-    controller.constructor[actionName]();
+const callFunc = (resource, name) => {
+  if (typeof resource.constructor[name] === "function") {
+    resource.constructor[name]();
   }
-  if (typeof controller[actionName] === "function") {
-    controller[actionName]();
+  if (typeof resource[name] === "function") {
+    resource[name]();
   }
 };
 
@@ -29,23 +21,33 @@ const getController = (Controllers, name, subName) => {
   return null;
 };
 
-const init = Controllers => {
+const init = (Controllers) => {
   const body = document.getElementsByTagName("body")[0];
   const namespaceName = body.getAttribute("data-namespace");
   const controllerName = body.getAttribute("data-controller");
   const actionName = body.getAttribute("data-action");
 
-  let namespaceController = getController(Controllers, namespaceName);
-  let controller = getController(Controllers, controllerName);
+  if (controller !== null) {
+    callFunc(controller, "deinitialize");
+    controller = null;
+  }
+  if (namespaceController !== null) {
+    callFunc(namespaceController, "deinitialize");
+    namespaceController = null;
+  }
+
+  namespaceController = getController(Controllers, namespaceName);
+  controller = getController(Controllers, controllerName);
 
   if (namespaceController !== null) {
     controller = getController(Controllers, namespaceName, controllerName);
     namespaceController.controller = controller;
-    callInitialize(namespaceController);
+    callFunc(namespaceController, "initialize");
   }
   if (controller !== null) {
     controller.namespaceController = namespaceController;
-    controllerFlow(controller, actionName);
+    callFunc(controller, "initialize");
+    callFunc(controller, actionName);
   }
 
   return { namespaceController, controller, action: actionName };
