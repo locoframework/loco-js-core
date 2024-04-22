@@ -10,19 +10,6 @@ const callFunc = (resource, name) => {
   }
 };
 
-const callInitialize = (resource) => {
-  callFunc(resource, "initialize");
-};
-
-const callDeinitialize = (resource) => {
-  callFunc(resource, "deinitialize");
-};
-
-const controllerFlow = (controller, actionName) => {
-  callFunc(controller, "initialize");
-  callFunc(controller, actionName);
-};
-
 const getController = (Controllers, name, subName) => {
   const resource =
     subName === undefined ? Controllers[name] : Controllers[name][subName];
@@ -41,11 +28,11 @@ const init = (Controllers) => {
   const actionName = body.getAttribute("data-action");
 
   if (controller !== null) {
-    callDeinitialize(controller);
+    callFunc(controller, "deinitialize");
     controller = null;
   }
   if (namespaceController !== null) {
-    callDeinitialize(namespaceController);
+    callFunc(namespaceController, "deinitialize");
     namespaceController = null;
   }
 
@@ -55,11 +42,12 @@ const init = (Controllers) => {
   if (namespaceController !== null) {
     controller = getController(Controllers, namespaceName, controllerName);
     namespaceController.controller = controller;
-    callInitialize(namespaceController);
+    callFunc(namespaceController, "initialize");
   }
   if (controller !== null) {
     controller.namespaceController = namespaceController;
-    controllerFlow(controller, actionName);
+    callFunc(controller, "initialize");
+    callFunc(controller, actionName);
   }
 
   return { namespaceController, controller, action: actionName };
