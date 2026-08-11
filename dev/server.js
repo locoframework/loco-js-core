@@ -10,8 +10,6 @@ import webpackConfig from "../webpack.config.js";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const rootPath = "..";
-
 const app = express();
 const compiler = webpack(webpackConfig);
 
@@ -54,11 +52,11 @@ app.get("/loco-reactive.js", (_, res) => {
   res.type("js").sendFile(path.join(__dirname, "loco-reactive.js"));
 });
 
-// TODO: Requires ../loco-js-model next to this repo
-app.get("/loco-model.js", (_, res) => {
+// TODO: Requires ../../loco-js-model (not released to npm yet) built with 'npm run build'
+app.get("/loco-model.mjs", (_, res) => {
   const file = path.resolve(
     __dirname,
-    `${rootPath}/../loco-js-model/dist/loco-model.js`,
+    "../../loco-js-model/dist/loco-model.mjs",
   );
   res.sendFile(file, (err) => {
     if (err)

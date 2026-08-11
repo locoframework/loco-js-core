@@ -1,8 +1,7 @@
 import { Reactive } from "Simplicit";
+import { Models } from "LocoModel";
 
-// loco-js-model ships as a UMD global (loaded before this module).
-// TODO: import { Base } from "LocoModel";
-const Base = window.LocoModel.Models.Base;
+const { Base } = Models;
 
 export class LocoReactive extends Reactive(Base) {
   static getIdentity() {
