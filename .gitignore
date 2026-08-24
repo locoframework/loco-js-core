@@ -1,3 +1,4 @@
+.DS_Store
 node_modules
 
 # Playwright
@@ -7,4 +8,4 @@ node_modules
 /playwright/.cache/
 
 # Build output — rebuilt by the prepare script on install and publish
-/dist/
+dist
