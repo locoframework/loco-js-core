@@ -3,9 +3,9 @@ import { Models } from "LocoModel";
 
 const { Base } = Models;
 
-export class LocoReactive extends Reactive(Base) {
-  static getIdentity() {
-    return this.identity ?? this.name;
+export default class LocoReactive extends Reactive(Base) {
+  static get identity() {
+    return this.name;
   }
 
   static async all(...args) {
