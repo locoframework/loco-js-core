@@ -4,9 +4,9 @@ import { pluralize } from "./associations.js";
 
 const keyed = new WeakSet();
 
-const assertKeyed = (ComponentClass) => {
+const assertKeyed = (ComponentClass, record) => {
   if (keyed.has(ComponentClass)) return;
-  if (!root(ComponentClass.template({}))?.hasAttribute(KEY)) {
+  if (!root(ComponentClass.template(record))?.hasAttribute(KEY)) {
     throw new Error(
       `Component "${ComponentClass.name}" is a Model representation but its ` +
         `template has no ${KEY} — add ${KEY}="\${id}" to the root element ` +
@@ -39,11 +39,13 @@ const recordsFor = (el, Child, modelClasses) => {
 };
 
 const fill = (container, ComponentClass, modelClasses) => {
-  assertKeyed(ComponentClass);
-  ComponentClass.renderTemplates(
-    container,
-    recordsFor(container.parentElement, ComponentClass.Model, modelClasses),
+  const records = recordsFor(
+    container.parentElement,
+    ComponentClass.Model,
+    modelClasses,
   );
+  if (records.length > 0) assertKeyed(ComponentClass, records[0]);
+  ComponentClass.renderTemplates(container, records);
 };
 
 export const representationFor = (name, modelClasses) =>
