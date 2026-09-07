@@ -1,6 +1,6 @@
-import DOMPurify from "dompurify";
 import { COMPONENT, POSITION, TARGET } from "../attributes.js";
 import { setProps, selfAndDescendants } from "./helpers.js";
+import { sanitizedFragment } from "./sanitize.js";
 
 const SCRIPT_SELECTOR = `script[type='application/json'][${COMPONENT}]`;
 
@@ -23,7 +23,17 @@ const processScript = (script, componentClasses) => {
   arr.forEach((props) => {
     html += setProps(componentClass.template(props), props);
   });
-  targetEl.insertAdjacentHTML(position, DOMPurify.sanitize(html));
+  // Nodes, not a string: insertAdjacentHTML would re-parse in the target's
+  // context and re-run the sanitizer's context problem.
+  const fragment = sanitizedFragment(html);
+  const insert = {
+    beforebegin: () => targetEl.before(fragment),
+    afterbegin: () => targetEl.prepend(fragment),
+    beforeend: () => targetEl.append(fragment),
+    afterend: () => targetEl.after(fragment),
+  }[position];
+  if (!insert) throw new Error(`Invalid ${POSITION}="${position}"`);
+  insert();
   script.remove();
 };
 

@@ -18,6 +18,9 @@ export const Reactive = (Base = Object) =>
           : new this(attributesOrInstance);
       if (this.loaded.includes(instance)) return instance;
 
+      const existing = instance.id == null ? null : this.byId(instance.id);
+      if (existing) return existing.update(instance);
+
       collections.set(this, [...this.loaded, instance]);
       notifyChange(this);
       return instance;

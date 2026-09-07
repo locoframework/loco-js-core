@@ -1,6 +1,6 @@
-import DOMPurify from "dompurify";
 import { COMPONENT, KEY, REF } from "./attributes.js";
-import { destructArray, setProps, root } from "./start/helpers.js";
+import { destructArray, setProps } from "./start/helpers.js";
+import { sanitizedFragment } from "./start/sanitize.js";
 import { morph } from "./start/morph.js";
 
 // Matches within one component only — excludes elements that live inside a
@@ -19,8 +19,10 @@ export default class Component {
 
   static renderTemplates(container, propsList) {
     const next = container.cloneNode(false);
-    next.innerHTML = DOMPurify.sanitize(
-      propsList.map((props) => this.template(props)).join(""),
+    next.replaceChildren(
+      sanitizedFragment(
+        propsList.map((props) => this.template(props)).join(""),
+      ),
     );
     morph(container, next);
   }
@@ -162,7 +164,10 @@ export default class Component {
 
   #render() {
     const props = this.model ? { ...this.props, ...this.model } : this.props;
-    morph(this.element, root(this.constructor.template(props)));
+    morph(
+      this.element,
+      sanitizedFragment(this.constructor.template(props)).firstElementChild,
+    );
     this.#applyBindings();
   }
 
