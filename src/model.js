@@ -1,8 +1,21 @@
 const collections = new WeakMap(); // ModelClass -> Model[]
-const changeHandlers = new WeakMap(); // ModelClass -> Set<fn> (collection-level)
+const changeHandlers = new WeakMap(); // ModelClass -> Set<fn>: shape OR fields
+const collectionHandlers = new WeakMap(); // ModelClass -> Set<fn>: shape only
 
-const notifyChange = (ModelClass) =>
-  changeHandlers.get(ModelClass)?.forEach((handler) => handler());
+const notify = (map, ModelClass) =>
+  map.get(ModelClass)?.forEach((handler) => handler());
+
+const subscribe = (map, ModelClass, handler) => {
+  let handlers = map.get(ModelClass);
+  if (!handlers) map.set(ModelClass, (handlers = new Set()));
+  handlers.add(handler);
+  return () => handlers.delete(handler);
+};
+
+const notifyChange = (ModelClass) => {
+  notify(collectionHandlers, ModelClass);
+  notify(changeHandlers, ModelClass);
+};
 
 export const Reactive = (Base = Object) =>
   class extends Base {
@@ -46,11 +59,14 @@ export const Reactive = (Base = Object) =>
       );
     }
 
+    // Any change: a record added/removed/loaded, or a field on one of them.
     static onChange(handler) {
-      let handlers = changeHandlers.get(this);
-      if (!handlers) changeHandlers.set(this, (handlers = new Set()));
-      handlers.add(handler);
-      return () => handlers.delete(handler);
+      return subscribe(changeHandlers, this, handler);
+    }
+
+    // Only which records exist — what a container needs to refill.
+    static onCollectionChange(handler) {
+      return subscribe(collectionHandlers, this, handler);
     }
 
     get components() {
@@ -69,6 +85,7 @@ export const Reactive = (Base = Object) =>
 
     rerender() {
       this.#components.forEach((component) => component.update());
+      notify(changeHandlers, this.constructor);
       return this;
     }
 

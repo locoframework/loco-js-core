@@ -27,12 +27,15 @@ export default class Component {
     morph(container, next);
   }
 
+  // Assigned by the runtime right after construction (see start/init.js), not
+  // here — a component never builds its own node or id.
+  node = null; // { name, element, parent, children, siblings } (start/scan.js)
+  componentId = null; // mirrored to data-component-id
+  props = {}; // render data; the full state driving the markup
+  model = null; // bound Model record, when the component represents one
+
   #cleanupCallbacks = [];
   #bindings = [];
-
-  constructor() {
-    this.props = {};
-  }
 
   get element() {
     return this.node.element;
@@ -154,7 +157,18 @@ export default class Component {
     const Model = this.constructor.Model;
     if (!Model) return;
 
-    const record = Model.byId(this.element.getAttribute(KEY));
+    // A representation carries data-key and stands for one record. Without a
+    // key the component is a readout over the whole collection — the count of
+    // something, an empty state — so it follows the collection instead, and
+    // its template receives `records`.
+    const key = this.element.getAttribute(KEY);
+    if (key === null) {
+      this.registerCleanup(Model.onChange(() => this.update()));
+      this.update();
+      return;
+    }
+
+    const record = Model.byId(key);
     if (!record) return;
 
     record.bind(this);
@@ -162,8 +176,20 @@ export default class Component {
     this.update();
   }
 
+  // Derived, not stored: a render can happen from connect(), before
+  // connectModel() has decided anything — and `records` must be an array by
+  // then, so a readout template never has to defend against undefined.
+  get #followsCollection() {
+    const Model = this.constructor.Model;
+    return Model !== null && this.element.getAttribute(KEY) === null;
+  }
+
   #render() {
-    const props = this.model ? { ...this.props, ...this.model } : this.props;
+    const props = this.model
+      ? { ...this.props, ...this.model }
+      : this.#followsCollection
+        ? { ...this.props, records: this.constructor.Model.loaded }
+        : this.props;
     morph(
       this.element,
       sanitizedFragment(this.constructor.template(props)).firstElementChild,

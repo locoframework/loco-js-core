@@ -10,7 +10,7 @@ export const observeModels = (searchRoot, modelClasses) => {
     for (const ModelClass of newModelClasses) {
       modelNames.add(ModelClass.name);
       for (const ComponentClass of ModelClass.components ?? []) {
-        ModelClass.onChange(() =>
+        ModelClass.onCollectionChange(() =>
           renderContainers(searchRoot, ComponentClass, modelClasses),
         );
       }
