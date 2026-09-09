@@ -60,3 +60,22 @@ describe("associations", () => {
     expect(Article.byId(2).comments.map((c) => c.id)).toEqual([3, 4]);
   });
 });
+
+describe("namespaced model names", () => {
+  it("names association members after the final segment", () => {
+    class Post extends Model {
+      static name = "Post";
+    }
+    class Remark extends Model {
+      static name = "Post.Remark";
+      static belongsTo = [Post];
+    }
+    wireAssociations([Post, Remark]);
+
+    Post.load([{ id: 1 }]);
+    Remark.load([{ id: 10, post_id: 1 }]);
+
+    expect(Post.byId(1).remarks.map((r) => r.id)).toEqual([10]);
+    expect(Remark.byId(10).post.id).toEqual(1);
+  });
+});

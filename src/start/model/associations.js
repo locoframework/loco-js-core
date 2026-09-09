@@ -1,4 +1,11 @@
-const lower = (name) => name.charAt(0).toLowerCase() + name.slice(1);
+// A Model's name may be namespaced ("Article.Comment", mirroring Rails'
+// Article::Comment). Association members are named after the final segment, so
+// an Article has `comments` and a Comment belongs to `article` — never
+// `article["article.Comments"]`.
+const member = (name) => name.split(".").pop();
+
+const lower = (name) =>
+  member(name).charAt(0).toLowerCase() + member(name).slice(1);
 
 export const pluralize = (name) => `${lower(name)}s`;
 
